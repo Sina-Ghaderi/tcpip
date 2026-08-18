@@ -2,7 +2,7 @@
 
 A lightweight Go package for parsing, validating, encoding, and decoding TCP/IP protocol headers.
 
-## Features
+### Features
 
 * IPv4 header parsing and encoding
 * IPv6 header parsing and encoding
@@ -12,15 +12,15 @@ A lightweight Go package for parsing, validating, encoding, and decoding TCP/IP 
 * Protocol and flag constants
 * Zero-copy access to packet headers using byte slices
 
-## Installation
+### Installation
 
 ```bash
 go get github.com/sina-ghaderi/tcpip
 ```
 
-## Usage
+### Usage
 
-### Parse an IPv4 Header
+#### Parse an IPv4 Header
 
 ```go
 hdr, err := tcpip.NewIPv4Header(packet)
@@ -33,7 +33,7 @@ dst := hdr.DstAddr()
 proto := hdr.Protocol()
 ```
 
-### Parse a TCP Header
+#### Parse a TCP Header
 
 ```go
 tcpHdr, err := tcpip.NewTCPHeader(segment)
@@ -46,7 +46,7 @@ dstPort := tcpHdr.DstPort()
 flags := tcpHdr.Flags()
 ```
 
-### Build a UDP Header
+#### Build a UDP Header
 
 ```go
 buf := make([]byte, tcpip.FixUDPHdrLen)
@@ -58,7 +58,7 @@ udp.SetTotalLen(uint16(len(buf)))
 ```
 
 
-## Validation
+### Validation
 
 The package validates:
 
@@ -69,11 +69,11 @@ The package validates:
 
 Invalid packets return descriptive errors.
 
-## Testing
+### Testing
 
 ```bash
 go test ./...
 ```
 
-## License
+### License
 Apache License Version 2.0, January 2004
