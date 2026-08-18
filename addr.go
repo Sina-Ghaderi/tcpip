@@ -4,30 +4,42 @@ import (
 	"errors"
 )
 
+// IPv4AddrLen is the length of an IPv6 address in bytes.
 const IPv4AddrLen = 0x04
+
+// IPv6AddrLen is the length of an IPv6 address in bytes.
 const IPv6AddrLen = 0x10
 
+// Addr represents an IPv6-sized IP address.
 type Addr [16]byte
 
 const (
-	IPv4 = 0x04
-	IPv6 = 0x06
+	IPv4 = 0x04 // IPv4 identifies the IPv4 protocol version.
+	IPv6 = 0x06 // IPv6 identifies the IPv6 protocol version.
 )
 
+// MinIPv4HdrLen is the minimum valid IPv4 header length in bytes.
 const MinIPv4HdrLen = 0x14
+
+// MaxIPv4HdrLen is the maximum IPv4 header length in bytes.
 const MaxIPv4HdrLen = 0x3c
+
+// FixIPv6HdrLen is the fixed IPv6 base header length in bytes.
 const FixIPv6HdrLen = 0x28
 
 const (
-	ProtoTCP = 0x06
-	ProtoUDP = 0x11
+	ProtoTCP = 0x06 // ProtoTCP identifies TCP as an IP payload protocol.
+	ProtoUDP = 0x11 // ProtoUDP identifies UDP as an IP payload protocol.
 )
 
 const (
+	// IPv4FlagMF identifies the IPv4 More Fragments flag.
 	IPv4FlagMF = 1 << iota
+	// IPv4FlagDF identifies the IPv4 Don't Fragment flag.
 	IPv4FlagDF
 )
 
+// Version returns the IP version encoded in the first byte of an IP header.
 func Version(b []byte) (v uint8, err error) {
 	if len(b) < 1 {
 		return v, ErrShortBuffer
@@ -41,6 +53,7 @@ func Version(b []byte) (v uint8, err error) {
 	return v, errors.New("invalid ip header version")
 }
 
+// TotalLen returns the total length of an IPv4 or IPv6 packet.
 func TotalLen(b []byte) (int, error) {
 
 	ipv, err := Version(b)
@@ -55,6 +68,7 @@ func TotalLen(b []byte) (int, error) {
 	}
 }
 
+// IPv4TotalLen validates an IPv4 header and returns the packet's total length.
 func IPv4TotalLen(b []byte) (int, error) {
 
 	if len(b) < MinIPv4HdrLen {
@@ -79,6 +93,7 @@ func IPv4TotalLen(b []byte) (int, error) {
 	return int(totalLen), err
 }
 
+// IPv6TotalLen validates an IPv6 base header and returns the packet's total length.
 func IPv6TotalLen(b []byte) (int, error) {
 
 	if len(b) < FixIPv6HdrLen {
